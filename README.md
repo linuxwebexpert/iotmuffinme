@@ -10,6 +10,16 @@ The challenge is to create better graphs, more meaningful data visualizations,
 implement correlations between data anomalies and trends, improve the overall
 visual impact of the graph, and create Elastic alarms for monitoring conditions.
 
+The premise of our IoT requirements are to control the processes by which the company
+muffins are baked daily, by watching IoT sensors, dashboards, and getting alarm alerts
+in the event of an "excursion" in the baking assembly line.
+
+We will be sending sensor data from pins embedded in the muffin trays directly to
+Elasticsearch as the muffin trays travel through the baking process. If at any
+point in the production of the world's most tasty muffins with the secret ingredients
+and baking recipe vary so much as one degree from perfection, the muffin is given to
+the food banks as a charity write off for taxes.
+
 ## Requirements and Installation
 
 - Node.JS (_tested with version 14.x_)
