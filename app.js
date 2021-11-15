@@ -7,15 +7,15 @@
  */
 
 /**
- * File system access for Node.JS
+ * Enables interacting with the file system in a way modeled on standard POSIX functions
  * @see https://nodejs.org/docs/latest-v14.x/api/fs.html
  * @example https://nodejs.dev/learn/reading-files-with-nodejs
  * @type {fs}
  */
-const {fs} = require('fs');
+const fs = require('fs');
 
 /**
- * Faker library for Node.JS - random data generator
+ * Generate massive amounts of fake data in the browser and node.js
  * @see https://github.com/Marak/Faker.js
  * @requires faker
  * @type {Faker}
@@ -23,31 +23,40 @@ const {fs} = require('fs');
 const faker = require('faker');
 
 /**
- * File Path library for Node.JS - directory information
+ * Provides utilities for working with file and directory paths
  * @see https://nodejs.org/docs/latest-v14.x/api/path.html
  */
 const path = require('path');
 
 /**
- * cURL compatible client for Node.JS similar to GuzzleHttp for PHP
- * @requires axios
+ * Axios is a promise-based HTTP Client for node.js
+ * @see https://axios-http.com/docs/intro
  * @see https://github.com/axios/axios
  * @type {AxiosPromise}
  */
-const {axios} = require('axios');
+const axios = require('axios');
 
 /**
+ * Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
  * @see https://github.com/motdotla/dotenv
  */
 require('dotenv').config({
-    path: path.join(__dirname, '../.env'),
+    path: path.join(__dirname, '.env'),
 });
 
 /**
- *
+ * Get the current line number of the executing file and method
+ * @see https://github.com/bevry/get-current-line
  * @type {Location}
  */
 const line = require('get-current-line');
+
+/**
+ * Provides information about, and control over, the current Node.js process.
+ * @see https://nodejs.org/docs/latest-v14.x/api/process.html
+ * @type {NodeJS.Global.process}
+ */
+const process = require("process");
 
 /**
  * Implementation of sleep for JavaScript
@@ -104,11 +113,14 @@ function alertMsg(trace, msg, level, data = null) {
     }
 }
 
-function doIt() {
-    for (let i = 1; i <= 10; i++) {
-        let myTest = faker.datatype.number({min: 13, max: 67});
+function doIt(myCount) {
+    let myObj = {};
+    for (let i = 1; i <= myCount; i++) {
+        const myTest = faker.datatype.number({min: 13, max: 67});
         alertMsg(line.default(), 'Found faker random datatype number = ' + myTest);
+        myObj[i] = myTest;
     }
+    alertMsg(line.default(),'Assembled IMT sensor object',4, myObj);
 }
-
-doIt();
+let myCount = process.env['IMT_SENSOR_COUNT'];
+doIt(myCount);
