@@ -13,19 +13,24 @@ The premise of our IoT requirements are to control the processes by which the co
 
 We will be sending sensor data from pins embedded in the muffin trays directly to Elasticsearch as the muffin trays travel through the baking process. If at any point in the production of the world's most tasty muffins with the secret ingredients and the baking recipe varies so much as one degree from perfection, the muffin is given to the food banks as a charity write-off for taxes.
 
+Every batch of muffins gets a random ID assigned during the baking process for traceability in the event of an incident or customer complaints. The Muffin In Me software provided here is designed to simulate this whole process and produce an [SPC (Statistical Process Control) chart](https://www.qimacros.com/control-chart/stability-analysis-control-chart-rules/) on live real-time big screen TV monitors on the production floor for the supervisors to watch their IoT muffin making dashboards. The image below represents the typical statistical or stability process control chart by which quality metrics are analyzed and alarms are sent when the data points exceed either the upper or lower control limits.
+
+![Stastical Control Chart](./control-chart-rules-western-electric.jpg)
+
 ## Requirements and Instructions
 
 1. Elasticsearch v7.x, Kibana, and Visualize tools for the database
    - [Elastic's Free Trial](https://www.elastic.co/cloud/elasticsearch-service/signup) or a paid subscription
+   >**NOTE:** Be certain to save your credentials CSV file when you create your account
 2. Vega-Lite Schema v4.x for the graphing of the data
    - [Vega-Lite: A Grammar of Interactive Graphics](https://vega.github.io/vega-lite/)
+   > Check out the Vega-Lite example gallery - _Layering Rolling Averages over Raw Values_
 3. Node.JS version 14.x or later to generate the data
    - [Install Node.JS](https://nodejs.org/en/download/)
 4. npm packages (_tested with version 6.x_) to fake the data
    - `npm install -g npm@6`
 5. CLI (Command Line Interface) any shell is fine to run the app
    - `npm run dev`
-
 6. Clone the repository `git clone https://github.com/linuxwebexpert/iotmuffinme.git`
 7. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_CREDENTIALS` as needed
 8. Using a shell window change to the working directory and install the dependencies `npm install`
