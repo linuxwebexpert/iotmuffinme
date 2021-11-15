@@ -1,4 +1,5 @@
 {
+  "sensors": 12,
   "temperature": 342.33,
   "humidity": 37.1,
   "millibars": 3.12,
