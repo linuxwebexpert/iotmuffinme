@@ -8,11 +8,11 @@
 
 /**
  * File system access for Node.JS
- * @see https://www.npmjs.com/package/fs
+ * @see https://nodejs.org/docs/latest-v14.x/api/fs.html
  * @example https://nodejs.dev/learn/reading-files-with-nodejs
  * @type {fs}
  */
-const fs = require('fs');
+const {fs} = require('fs');
 
 /**
  * Faker library for Node.JS - random data generator
@@ -23,12 +23,18 @@ const fs = require('fs');
 const faker = require('faker');
 
 /**
+ * File Path library for Node.JS - directory information
+ * @see https://nodejs.org/docs/latest-v14.x/api/path.html
+ */
+const path = require('path');
+
+/**
  * cURL compatible client for Node.JS similar to GuzzleHttp for PHP
  * @requires axios
  * @see https://github.com/axios/axios
  * @type {AxiosPromise}
  */
-const axios = require('axios').default();
+const {axios} = require('axios');
 
 /**
  * @see https://github.com/motdotla/dotenv
@@ -98,9 +104,11 @@ function alertMsg(trace, msg, level, data = null) {
     }
 }
 
-let myTest = faker.datatype.number({min:13,max:67});
-
-for (let i = 1; i <= 10; i++) {
-    alertMsg()
+function doIt() {
+    for (let i = 1; i <= 10; i++) {
+        let myTest = faker.datatype.number({min: 13, max: 67});
+        alertMsg(line.default(), 'Found faker random datatype number = ' + myTest);
+    }
 }
 
+doIt();
