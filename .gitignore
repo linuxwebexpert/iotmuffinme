@@ -73,8 +73,11 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.local
 .env.test
+
+# Elasticsearch Cloud ID, username, password - credentials
+credentials-*.csv
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
