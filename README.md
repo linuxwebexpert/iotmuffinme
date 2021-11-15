@@ -28,7 +28,7 @@ Every batch of muffins gets a random ID assigned during the baking process for t
 3. Node.JS version 14.x or later to generate the data
    - [Install Node.JS](https://nodejs.org/en/download/)
 4. Open a shell window change to the working directory and install the dependencies `npm install`
-5. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_CREDENTIALS` to match your **credentials-xxxxx** file
+5. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_PASSWORD` to match your **credentials-xxxxx** file
 6. Try running the application to see if data is being generated in developer mode `npm run dev`
 7. Now go to your Elasticsearch installation and create an index for `muffin-1*`
 8. Using **Kibana -> Visualize** insert the `vega-lite-spc.json` file code into the editor
