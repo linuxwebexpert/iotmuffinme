@@ -27,14 +27,9 @@ Every batch of muffins gets a random ID assigned during the baking process for t
    > Check out the Vega-Lite example gallery - _Layering Rolling Averages over Raw Values_
 3. Node.JS version 14.x or later to generate the data
    - [Install Node.JS](https://nodejs.org/en/download/)
-4. npm packages (_tested with version 6.x_) to fake the data
-   - `npm install -g npm@6`
-5. CLI (Command Line Interface) any shell is fine to run the app
-   - `npm run dev` (_After installing dependencies and configuration_)
-6. Clone the repository `git clone https://github.com/linuxwebexpert/iotmuffinme.git`
-7. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_CREDENTIALS` as needed
-8. Using a shell window change to the working directory and install the dependencies `npm install`
-9. Try running the application to see if data is being generated in developer mode `npm run dev`
-10. Now go to your Elasticsearch installation and create an index for `muffin-1*`
-11. Using **Kibana -> Visualize** insert the `vega-lite-spc.json` file code into the editor
-12. You should see a graph like the one below:
+4. Open a shell window change to the working directory and install the dependencies `npm install`
+5. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_CREDENTIALS` to match your **credentials-xxxxx** file
+6. Try running the application to see if data is being generated in developer mode `npm run dev`
+7. Now go to your Elasticsearch installation and create an index for `muffin-1*`
+8. Using **Kibana -> Visualize** insert the `vega-lite-spc.json` file code into the editor
+9. You should see a graph like the one below:
