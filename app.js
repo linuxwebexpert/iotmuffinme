@@ -113,6 +113,26 @@ function alertMsg(trace, msg, level, data = null) {
     }
 }
 
+/**
+ * Load the configuration data for the IMT secret recipe
+ * @param {String} filename - File path location for JSON config
+ * @returns {*}
+ */
+function readData(filename) {
+    let data;
+    try {
+        data = fs.readFileSync(__dirname + '/' + filename, 'utf8');
+    } catch (err) {
+        let trace = line.default();
+        alertMsg(trace, err, 1);
+    }
+    alertMsg(line.default(), 'Loaded: ' + filename + ' -  Character length: ' + data.length, 5, data);
+    return data;
+}
+
+
+
+
 function doIt(myCount) {
     let myObj = {};
     for (let i = 1; i <= myCount; i++) {
@@ -122,5 +142,12 @@ function doIt(myCount) {
     }
     alertMsg(line.default(),'Assembled IMT sensor object',4, myObj);
 }
+
+
+
+
+
+const configData = readData('imt.json');
+
 let myCount = process.env['IMT_SENSOR_COUNT'];
 doIt(myCount);
