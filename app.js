@@ -130,24 +130,56 @@ function readData(filename) {
     return data;
 }
 
+function multiplyFactor(max, factor, fallback) {
+    let multiX = faker.datatype.number({min: 1, max: max});
+    if (multiX <= (max - factor)) { multiX = fallback } else { multiX = multiX / (factor / fallback) }
+    return multiX;
+}
+
+/**
+ * Generates an Elasticsearch index
+ * @returns {{iso8601: string, index: string}}
+ */
+function dateIndex() {
+
+    let d = new Date();
+
+    let ye = new Intl.DateTimeFormat('en', { year: '2-digit' }).format(d);
+    let year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+    let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+
+    let index = process.env['ELASTIC_INDEX'] + '.' + mo + '.' + ye;
+    let iso8601 = d.toISOString();
+
+    alertMsg(line.default(), 'Generated Elasticsearch index: ' + index, 4);
+    return { "index": index, "iso8601": iso8601 };
+}
 
 
-
-function doIt(myCount) {
-    let myObj = {};
-    for (let i = 1; i <= myCount; i++) {
-        const myTest = faker.datatype.number({min: 13, max: 67});
+/**
+ * Generate some fake data for a muffin
+ *
+ * @param {Number} IMTid - IoT Muffin Tray number
+ * @param {Number} sensorNum - Cup Sensor number
+ */
+function bakeMuffin(IMTid, sensorNum) {
+    let myTray = {};
+    for (let i = 1; i <= sensorNum; i++) {
+        let myTest = multiplyFactor(99, 55, 11);
         alertMsg(line.default(), 'Found faker random datatype number = ' + myTest);
-        myObj[i] = myTest;
+        myTray[i] = myTest;
     }
-    alertMsg(line.default(),'Assembled IMT sensor object',4, myObj);
+    alertMsg(line.default(),'Assembled IMT sensor object',4, myTray);
 }
 
 
 
 
+const rawData = readData('imt.json');
 
-const configData = readData('imt.json');
+const config = JSON.parse(rawData);
 
-let myCount = process.env['IMT_SENSOR_COUNT'];
-doIt(myCount);
+let myCount = config.sensors;
+console.log(myCount);
+bakeMuffin(1, myCount);
