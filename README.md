@@ -12,12 +12,17 @@ visual impact of the graph, and create Elastic alarms for monitoring conditions.
 
 The premise of our IoT requirements are to control the processes by which the company
 muffins are baked daily, by watching IoT sensors, dashboards, and getting alarm alerts
-in the event of an "[excursion](https://www.semanticscholar.org/paper/Excursion-Yield-Loss-and-Cycle-Time-Reduction-in-Leachman-Ding/6e7491504f595f5d6d0c4cc4a0a9c073815a61b4)" in the baking assembly line.
+in the event of an
+"[excursion](https://www.semanticscholar.org/paper/Excursion-Yield-Loss-and-Cycle-Time-Reduction-in-Leachman-Ding/6e7491504f595f5d6d0c4cc4a0a9c073815a61b4)"
+in the baking assembly line. The image below is representative of our imaginary IoT Muffin Tray
+or the IMT as it is known on the production floor by our factory workers.
+
+![Iot Muffin Tray](./iotmuffintray.png)
 
 We will be sending sensor data from pins embedded in the muffin trays directly to
 Elasticsearch as the muffin trays travel through the baking process. If at any
 point in the production of the world's most tasty muffins with the secret ingredients
-and baking recipe vary so much as one degree from perfection, the muffin is given to
+and baking recipe varies so much as one degree from perfection, the muffin is given to
 the food banks as a charity write off for taxes.
 
 ## Requirements and Instructions
