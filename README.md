@@ -20,16 +20,33 @@ Every batch of muffins gets a random ID assigned during the baking process for t
 ## Requirements and Instructions
 
 1. Elasticsearch v7.x, Kibana, and Visualize tools for the database
+
    - [Elastic's Free Trial](https://www.elastic.co/cloud/elasticsearch-service/signup) or a paid subscription
+
    >**NOTE:** Be certain to save your credentials CSV file when you create your account
+
 2. Vega-Lite Schema v4.x for the graphing of the data
+
    - [Vega-Lite: A Grammar of Interactive Graphics](https://vega.github.io/vega-lite/)
+
    > Check out the Vega-Lite example gallery - _Layering Rolling Averages over Raw Values_
+
 3. Node.JS version 14.x or later to generate the data
+
    - [Install Node.JS](https://nodejs.org/en/download/)
+
 4. Open a shell window change to the working directory and install the dependencies `npm install`
-5. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_PASSWORD` to match your **credentials-xxxxx** file
+
+5. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_PASSWORD`
+
+   > Use the password from the **credentials-xxxxx** file from when you signed up for Elastic
+
+   > Open the [ECE control panel](https://www.elastic.co/guide/en/cloud-enterprise/current/index.html) for the Elasticsearch URL Endpoint
+
 6. Try running the application to see if data is being generated in developer mode `npm run dev`
+
 7. Now go to your Elasticsearch installation and create an index for `muffin-1*`
+
 8. Using **Kibana -> Visualize** insert the `vega-lite-spc.json` file code into the editor
+
 9. You should see a graph like the one below:
