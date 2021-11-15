@@ -3,7 +3,7 @@
   "temperature": 342.33,
   "humidity": 37.1,
   "millibars": 3.12,
-  "omhs": 11.67,
+  "ohms": 11.67,
   "volts": 12.5,
   "grams": 113.398
 }
