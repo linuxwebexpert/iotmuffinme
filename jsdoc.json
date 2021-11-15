@@ -1,0 +1,52 @@
+{
+  "plugins": [
+    "plugins/markdown",
+    "plugins/summarize"
+],
+  "recurseDepth": 10,
+  "source": {
+    "include": [ "muffinmix.js" ],
+    "excludePattern": "((^|\\/|\\\\)_|\\.csv|\\.sh|\\.log|\\.txt|\\.bak|\\.sql)",
+    "includePattern": ".+(\\.js(doc|x))?$"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": false
+  },
+  "opts": {
+    "encoding": "utf8",
+    "readme": "./README.md",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true,
+    "template": "templates/default"
+  },
+    "theme_opts": {
+      "theme": "light"
+  },
+    "search": {
+      "shouldSort": true,
+      "threshold": 0.4,
+      "location": 0,
+      "distance": 100,
+      "maxPatternLength": 32,
+      "minMatchCharLength": 1
+    },
+    "menu" : [
+      {
+        "title": "Iot Muffin In Me",
+        "link": "https://github.com/linuxwebexpert/iotmuffinme",
+        "target": "_blank",
+        "class": "iotmuffinme",
+        "id": "IOTM"
+      }
+    ],
+    "overlay_scrollbar": {
+      "option": {}
+    }
+  }

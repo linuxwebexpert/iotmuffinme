@@ -79,6 +79,9 @@ typings/
 # Elasticsearch Cloud ID, username, password - credentials
 credentials-*.csv
 
+# JS Docs directory
+docs
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
