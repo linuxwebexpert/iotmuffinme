@@ -71,7 +71,6 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
-
 /**
  * Print out the current line, file, function and console message using error levels
  * @param {string} msg - String to print to the console
@@ -130,6 +129,13 @@ function readData(filename) {
     return data;
 }
 
+/**
+ * Create a random number based on a factored equation
+ * @param {Number} max - maximum value
+ * @param {Number} factor - dividing factor
+ * @param {Number} fallback - default fallback value
+ * @returns {*}
+ */
 function multiplyFactor(max, factor, fallback) {
     let multiX = faker.datatype.number({min: 1, max: max});
     if (multiX <= (max - factor)) { multiX = fallback } else { multiX = multiX / (factor / fallback) }
@@ -159,7 +165,6 @@ function dateIndex() {
 
 /**
  * Generate some fake data for a muffin
- *
  * @param {Number} IMTid - IoT Muffin Tray number
  * @param {Number} sensorNum - Cup Sensor number
  */
@@ -174,12 +179,12 @@ function bakeMuffin(IMTid, sensorNum) {
 }
 
 
-
-
 const rawData = readData('imt.json');
 
 const config = JSON.parse(rawData);
 
 let myCount = config.sensors;
-console.log(myCount);
+let elasticIndex = dateIndex();
+console.log(myCount,elasticIndex);
 bakeMuffin(1, myCount);
+
