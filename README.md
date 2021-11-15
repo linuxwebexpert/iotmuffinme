@@ -30,7 +30,7 @@ Every batch of muffins gets a random ID assigned during the baking process for t
 4. npm packages (_tested with version 6.x_) to fake the data
    - `npm install -g npm@6`
 5. CLI (Command Line Interface) any shell is fine to run the app
-   - `npm run dev`
+   - `npm run dev` (_After installing dependencies and configuration_)
 6. Clone the repository `git clone https://github.com/linuxwebexpert/iotmuffinme.git`
 7. Edit your `.env` file and change the `ELASTIC_ENDPOINT` & `ELASTIC_CREDENTIALS` as needed
 8. Using a shell window change to the working directory and install the dependencies `npm install`
