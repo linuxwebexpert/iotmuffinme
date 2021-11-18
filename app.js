@@ -29,20 +29,11 @@ const faker = require('faker');
 const path = require('path');
 
 /**
- * Axios is a promise-based HTTP Client for node.js
- * @see https://axios-http.com/docs/intro
- * @see https://github.com/axios/axios
- * @type {AxiosPromise}
+ * Provides information about, and control over, the current Node.js process.
+ * @see https://nodejs.org/docs/latest-v14.x/api/process.html
+ * @type {NodeJS.Global.process}
  */
-const axios = require('axios');
-
-/**
- * Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
- * @see https://github.com/motdotla/dotenv
- */
-require('dotenv').config({
-    path: path.join(__dirname, '.env'),
-});
+const process = require("process");
 
 /**
  * Get the current line number of the executing file and method
@@ -51,13 +42,46 @@ require('dotenv').config({
  */
 const line = require('get-current-line');
 
-/**
- * Provides information about, and control over, the current Node.js process.
- * @see https://nodejs.org/docs/latest-v14.x/api/process.html
- * @type {NodeJS.Global.process}
- */
-const process = require("process");
+let envFile;
+try {
+    if (fs.existsSync('.env.local')) {
+        //file exists
+        envFile = '.env.local'
+    } else if (fs.existsSync('.env')) {
+        envFile = '.env';
+    }
+} catch(err) {
+    alertMsg(line.default(),'Could not locate a dotenv file!',3, err);
+}
 
+let data;
+try {
+    data = fs.readFileSync(__dirname + '/' + myEnv, 'utf8');
+} catch (err) {
+    alertMsg(line.default(), 'Could not read data from ' + envFile + ' file!', 3, err);
+}
+if (process.env.DEBUG >= 2 && data.length > 0) {
+    alertMsg(line.default(), 'Found local environment dotenv data...', 4, data);
+}
+
+/**
+ * Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
+ * @see https://github.com/motdotla/dotenv
+ */
+require('dotenv').config({
+    path: path.join(__dirname, envFile),
+    debug: process.env.DEBUG
+});
+
+/**
+ * Promise based HTTP client for the browser and node.js
+ * @see https://axios-http.com/docs/intro
+ * @see https://github.com/axios/axios
+ * @type {AxiosStatic}
+ */
+const axios = require('axios').default;
+
+const format = require('date-format');
 /**
  * Implementation of sleep for JavaScript
  * @param milliseconds
@@ -162,6 +186,55 @@ function dateIndex() {
     return { "index": index, "iso8601": iso8601 };
 }
 
+async function sendElastic(elk) {
+
+    if (!(elk instanceof Object)) {
+        alertMsg(line.default(), 'ELK data does not conform to guzzleElastic requirements', 3, elk);
+        return false;
+    }
+
+    let elasticHeaders = {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        };
+
+    const elkData = JSON.stringify(elk);
+
+    const now = new Date();
+
+    let elasticIndex = process.env.ELASTIC_ENDPOINT + ':' + process.env.ELASTIC_PORT + '/' + process.env.ELASTIC_INDEX + '.' + format('MM.yy', now) + '/_doc/';
+
+    let pass = null;
+    axios.post(
+        elasticIndex,
+        elkData, {
+            headers: elasticHeaders,
+            auth: {
+                username: process.env.ELASTIC_USER,
+                password: process.env.ELASTIC_PASSWORD
+            }
+        })
+        .then(function (response) {
+            // handle success
+            alertMsg(line.default(),'Successful post to ' + elasticIndex, 4, response);
+            pass = true;
+        })
+        .catch(function (error) {
+            // handle error
+            alertMsg(line.default(),'Error posting to ' + elasticIndex, 3, error);
+            pass = false;
+        })
+        .then(function () {
+            // always executed
+            if (process.env.DEBUG >= 2) {
+                let passArg = [];
+                passArg['pass'] = pass;
+                alertMsg(line.default(), 'Executed the axios HTTP POST request', 4, passArg);
+            }
+        });
+    return pass;
+}
+
 
 /**
  * Generate some fake data for a muffin
@@ -176,6 +249,7 @@ function bakeMuffin(IMTid, sensorNum) {
         myTray[i] = myTest;
     }
     alertMsg(line.default(),'Assembled IMT sensor object',4, myTray);
+    let pass = sendElastic(myTray);
 }
 
 
