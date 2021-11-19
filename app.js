@@ -52,8 +52,6 @@ const axios = require('axios').default;
 
 const format = require('date-format');
 
-
-
 /**
  * Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
  * @see https://github.com/motdotla/dotenv
@@ -253,10 +251,19 @@ function bakeMuffin(IMTid, sensorNum) {
 
 const rawData = readData('imt.json');
 
-const config = JSON.parse(rawData);
+const jsonObj = JSON.parse(rawData);
 
-let myCount = config.sensors;
 let elasticIndex = dateIndex();
-console.log(myCount,elasticIndex);
-bakeMuffin(1, myCount);
+let myCount;
+let myArgs = process.argv.slice(2);
+if (myArgs !== 'undefined') {
+    myCount = Number.parseInt(myArgs[0]);
+}
+if (myCount >= 1) {
+    for (let imt = 1000; imt <= (1000 + myCount); imt++) {
+        bakeMuffin(imt, jsonObj.imt.sensors);
+    }
+} else {
+    alertMsg(line.default(), 'Please specify and integer number of IMT devices for the assembly line', 3, myArgs)
+}
 
