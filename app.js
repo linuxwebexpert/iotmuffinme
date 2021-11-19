@@ -42,37 +42,6 @@ const process = require("process");
  */
 const line = require('get-current-line');
 
-let envFile;
-try {
-    if (fs.existsSync('.env.local')) {
-        //file exists
-        envFile = '.env.local'
-    } else if (fs.existsSync('.env')) {
-        envFile = '.env';
-    }
-} catch(err) {
-    alertMsg(line.default(),'Could not locate a dotenv file!',3, err);
-}
-
-let data;
-try {
-    data = fs.readFileSync(__dirname + '/' + myEnv, 'utf8');
-} catch (err) {
-    alertMsg(line.default(), 'Could not read data from ' + envFile + ' file!', 3, err);
-}
-if (process.env.DEBUG >= 2 && data.length > 0) {
-    alertMsg(line.default(), 'Found local environment dotenv data...', 4, data);
-}
-
-/**
- * Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
- * @see https://github.com/motdotla/dotenv
- */
-require('dotenv').config({
-    path: path.join(__dirname, envFile),
-    debug: process.env.DEBUG
-});
-
 /**
  * Promise based HTTP client for the browser and node.js
  * @see https://axios-http.com/docs/intro
@@ -82,6 +51,35 @@ require('dotenv').config({
 const axios = require('axios').default;
 
 const format = require('date-format');
+
+
+
+/**
+ * Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
+ * @see https://github.com/motdotla/dotenv
+ */
+let envFile;
+    try {
+        if (fs.existsSync('.env.local')) {
+            //file exists
+            envFile = '.env.local'
+        } else if (fs.existsSync('.env')) {
+            envFile = '.env';
+        }
+    } catch(err) {
+        alertMsg(line.default(),'Could not locate a dotenv file!',3, err);
+    }
+
+    let data = readData(envFile,'utf8');
+    if (process.env.DEBUG >= 2 && data.length > 0) {
+        alertMsg(line.default(), 'Found local environment dotenv file...', 4, data);
+    }
+
+require('dotenv').config({
+    path: path.join(__dirname, envFile),
+    debug: 1
+});
+
 /**
  * Implementation of sleep for JavaScript
  * @param milliseconds
@@ -139,15 +137,15 @@ function alertMsg(trace, msg, level, data = null) {
 /**
  * Load the configuration data for the IMT secret recipe
  * @param {String} filename - File path location for JSON config
+ * @param {String} format - UTF8 by default or optional other character set
  * @returns {*}
  */
-function readData(filename) {
+function readData(filename, format = 'utf8') {
     let data;
     try {
-        data = fs.readFileSync(__dirname + '/' + filename, 'utf8');
+        data = fs.readFileSync(__dirname + '/' + filename, format);
     } catch (err) {
-        let trace = line.default();
-        alertMsg(trace, err, 1);
+        alertMsg(line.default(), 'Could not read data from ' + filename, 3, err);
     }
     alertMsg(line.default(), 'Loaded: ' + filename + ' -  Character length: ' + data.length, 5, data);
     return data;
