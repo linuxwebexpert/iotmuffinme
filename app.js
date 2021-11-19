@@ -237,12 +237,29 @@ async function sendElastic(elk) {
  * @param {Number} IMTid - IoT Muffin Tray number
  * @param {Number} sensorNum - Cup Sensor number
  */
-function bakeMuffin(IMTid, sensorNum) {
-    let myTray = {};
-    for (let i = 1; i <= sensorNum; i++) {
-        let myTest = multiplyFactor(99, 55, 11);
-        alertMsg(line.default(), 'Found faker random datatype number = ' + myTest);
-        myTray[i] = myTest;
+function bakeMuffin(IMTid, recipe) {
+
+    if (recipe === 'undefined' || typeof recipe !== Object) {
+        alertMsg(line.default(),'Recipe for IMT device not specified or invalid', 3, recipe);
+        return false;
+    }
+
+    let myTray = {
+        "IMT": IMTid,
+        "recipe": recipe,
+        "muffins": []
+    };
+    for (let sensorCount = 1; sensorCount <= recipe.sensors; sensorCount++) {
+        let myMuffin = [];
+        myMuffin['sensor'] = sensorCount;
+        for (const ingredient in recipe) {
+            // console.log(`${property}: ${object[property]}`);
+            let myTest = multiplyFactor(99, 55, 11);
+            alertMsg(line.default(), 'Found faker random datatype number = ' + myTest);
+            myMuffin[`${ingredient}`] = myTest;
+        }
+        alertMsg(line.default(),'Baked IMT sensor muffin with ingredients',4, myMuffin);
+        myTray.muffins.push(myMuffin);
     }
     alertMsg(line.default(),'Assembled IMT sensor object',4, myTray);
     let pass = sendElastic(myTray);
@@ -261,7 +278,7 @@ if (myArgs !== 'undefined') {
 }
 if (myCount >= 1) {
     for (let imt = 1000; imt <= (1000 + myCount); imt++) {
-        bakeMuffin(imt, jsonObj.imt.sensors);
+        bakeMuffin(imt, jsonObj);
     }
 } else {
     alertMsg(line.default(), 'Please specify and integer number of IMT devices for the assembly line', 3, myArgs)

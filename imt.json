@@ -1,11 +1,10 @@
 {
-  "imt": {
-    "sensors": 12,
-    "temperature": 342.33,
-    "humidity": 37.1,
-    "millibars": 3.12,
-    "ohms": 11.67,
-    "volts": 12.5,
-    "grams": 113.398
-  }
+  "version": 0.11,
+  "sensors": 12,
+  "fahrenheit": 351.42,
+  "humidity": 37.1,
+  "millibars": 3.12,
+  "ohms": 11.67,
+  "volts": 12.5,
+  "grams": 113.398
 }
