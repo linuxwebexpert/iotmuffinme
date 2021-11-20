@@ -212,7 +212,9 @@ async function sendElastic(elk) {
         })
         .then(function (response) {
             // handle success
-            alertMsg(line.default(),'Successful post to ' + elasticIndex, 4, response);
+            if (process.env.DEBUG >= 3) {
+                alertMsg(line.default(), 'Successful post to ' + elasticIndex, 4, response);
+            }
             pass = true;
         })
         .catch(function (error) {
@@ -222,7 +224,7 @@ async function sendElastic(elk) {
         })
         .then(function () {
             // always executed
-            if (process.env.DEBUG >= 2) {
+            if (process.env.DEBUG >= 3) {
                 let passArg = [];
                 passArg['pass'] = pass;
                 alertMsg(line.default(), 'Executed the axios HTTP POST request', 4, passArg);
@@ -239,7 +241,7 @@ async function sendElastic(elk) {
  */
 function bakeMuffin(IMTid, recipe) {
 
-    if (recipe === 'undefined' || typeof recipe !== Object) {
+    if (recipe === 'undefined' || typeof recipe !== 'object') {
         alertMsg(line.default(),'Recipe for IMT device not specified or invalid', 3, recipe);
         return false;
     }
@@ -247,22 +249,31 @@ function bakeMuffin(IMTid, recipe) {
     let myTray = {
         "IMT": IMTid,
         "recipe": recipe,
-        "muffins": []
+        "muffin": []
     };
-    for (let sensorCount = 1; sensorCount <= recipe.sensors; sensorCount++) {
-        let myMuffin = [];
-        myMuffin['sensor'] = sensorCount;
+    for (let sensorCount = 1; sensorCount < recipe.sensors; sensorCount++) {
+        let myMuffin = {};
+        myMuffin.sensor = sensorCount;
         for (const ingredient in recipe) {
             // console.log(`${property}: ${object[property]}`);
+            if (ingredient === 'sensors') {
+                continue;
+            }
             let myTest = multiplyFactor(99, 55, 11);
             alertMsg(line.default(), 'Found faker random datatype number = ' + myTest);
             myMuffin[`${ingredient}`] = myTest;
         }
         alertMsg(line.default(),'Baked IMT sensor muffin with ingredients',4, myMuffin);
-        myTray.muffins.push(myMuffin);
+        myTray.muffin.push(myMuffin);
+        sendElastic(myMuffin)
+            .then( function (yes) {
+                alertMsg(line.default(), 'Promise fullfilled sending data to Elasticsearch', 4, yes);
+            })
+            .catch(function (no) {
+                alertMsg(line.default(),'Promise rejected on send data to Elasticsearch', 4, no);
+            });
     }
     alertMsg(line.default(),'Assembled IMT sensor object',4, myTray);
-    let pass = sendElastic(myTray);
 }
 
 
