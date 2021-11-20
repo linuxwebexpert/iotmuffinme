@@ -246,13 +246,14 @@ function bakeMuffin(IMTid, recipe) {
         return false;
     }
 
-    let myTray = {
+    let today = dateIndex();
+
+    let myMuffin = {
         "IMT": IMTid,
         "recipe": recipe,
-        "muffin": []
+        "date": today.iso8601
     };
     for (let sensorCount = 1; sensorCount < recipe.sensors; sensorCount++) {
-        let myMuffin = {};
         myMuffin.sensor = sensorCount;
         for (const ingredient in recipe) {
             // console.log(`${property}: ${object[property]}`);
@@ -264,7 +265,6 @@ function bakeMuffin(IMTid, recipe) {
             myMuffin[`${ingredient}`] = myTest;
         }
         alertMsg(line.default(),'Baked IMT sensor muffin with ingredients',4, myMuffin);
-        myTray.muffin.push(myMuffin);
         sendElastic(myMuffin)
             .then( function (yes) {
                 alertMsg(line.default(), 'Promise fullfilled sending data to Elasticsearch', 4, yes);
@@ -273,7 +273,6 @@ function bakeMuffin(IMTid, recipe) {
                 alertMsg(line.default(),'Promise rejected on send data to Elasticsearch', 4, no);
             });
     }
-    alertMsg(line.default(),'Assembled IMT sensor object',4, myTray);
 }
 
 
